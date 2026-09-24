@@ -1,9 +1,4 @@
-/* ========== CONFIG ========== */
-const API_KEY = window.RAWG_API_KEY;
-const GAMES = window.GAMES_LIST;
-const FALLBACKS = window.FALLBACK_DESCRIPTIONS;
-
-/* ========== CUSTOM CURSOR ========== */
+/* ========== CURSOR ========== */
 const cursor = document.querySelector('.cursor');
 const follower = document.querySelector('.cursor-follower');
 if (cursor && follower && window.matchMedia('(pointer: fine)').matches) {
@@ -25,13 +20,13 @@ if (cursor && follower && window.matchMedia('(pointer: fine)').matches) {
   });
 }
 
-/* ========== NAV SCROLL ========== */
+/* ========== NAV ========== */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 40);
 });
 
-/* ========== STAR CANVAS ========== */
+/* ========== STARS ========== */
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let stars = [];
@@ -48,10 +43,8 @@ function resizeStars() {
 }
 resizeStars();
 window.addEventListener('resize', resizeStars);
-
 function drawStars() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const t = Date.now() * 0.001;
   stars.forEach(s => {
     s.tw += 0.02;
     s.y -= s.z * 0.15;
@@ -66,7 +59,31 @@ function drawStars() {
 }
 drawStars();
 
-/* ========== SCROLL REVEAL STAGES ========== */
+/* ========== HERO SCROLL — RISING TEXT ========== */
+const heroPlane = document.getElementById('heroPlane');
+const heroPortrait = document.getElementById('heroPortrait');
+const heroBottom = document.getElementById('heroBottom');
+
+function updateHero() {
+  if (!heroPlane) return;
+  const scrollY = window.scrollY;
+  const vh = window.innerHeight;
+  const progress = Math.min(scrollY / vh, 1);
+
+  const rotX = 78 - 78 * progress;
+  const tY = 45 - 45 * progress;
+  const tZ = -150 + 150 * progress;
+
+  heroPlane.style.transform =
+    `translate(-50%, -50%) rotateX(${rotX}deg) translateZ(${tZ}px) translateY(${tY}vh)`;
+
+  if (heroPortrait) heroPortrait.style.opacity = String(1 - progress * 0.6);
+  if (heroBottom) heroBottom.style.opacity = String(1 - progress * 0.9);
+}
+window.addEventListener('scroll', updateHero, { passive: true });
+updateHero();
+
+/* ========== REVEAL STAGES ========== */
 const stages = document.querySelectorAll('.reveal-stage');
 function updateStages() {
   const rect = document.querySelector('.reveal').getBoundingClientRect();
@@ -78,7 +95,7 @@ function updateStages() {
 window.addEventListener('scroll', updateStages);
 updateStages();
 
-/* ========== FADE IN OBSERVER ========== */
+/* ========== FADE OBSERVER ========== */
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -112,51 +129,22 @@ function formatNum(n) {
   return n.toString();
 }
 
-/* ========== RAWG CAROUSEL ========== */
+/* ========== GAMES CAROUSEL (serverless API) ========== */
 const carousel = document.getElementById('carousel');
 const dotsWrap = document.getElementById('dots');
 
-async function fetchGame(name) {
-  try {
-    const searchRes = await fetch(`https://api.rawg.io/api/games?key=${API_KEY}&search=${encodeURIComponent(name)}&page_size=1`);
-    const searchData = await searchRes.json();
-    if (!searchData.results || !searchData.results.length) return null;
-
-    const g = searchData.results[0];
-    let description = FALLBACKS[name] || '';
-
-    // Fetch full details for description
-    try {
-      const detailRes = await fetch(`https://api.rawg.io/api/games/${g.id}?key=${API_KEY}`);
-      const detail = await detailRes.json();
-      if (detail.description_raw && detail.description_raw.length > 20) {
-        description = detail.description_raw.slice(0, 260).trim() + '…';
-      }
-    } catch (e) { /* keep fallback */ }
-
-    return {
-      name: g.name,
-      cover: g.background_image,
-      genres: (g.genres || []).slice(0, 2).map(x => x.name),
-      released: g.released,
-      description,
-    };
-  } catch (err) {
-    console.warn('Failed for', name, err);
-    return null;
-  }
-}
-
-function makeCard(game, originalName) {
+function makeCard(game) {
   const card = document.createElement('div');
   card.className = 'game-card';
-  const cover = game?.cover || '';
-  const title = game?.name || originalName;
-  const desc = game?.description || FALLBACKS[originalName] || 'No description available.';
-  const genre = game?.genres?.[0] || 'Game';
+  const cover = game.cover || '';
+  const title = game.name;
+  const desc = game.description || 'No description available.';
+  const genre = (game.genres && game.genres[0]) || 'Game';
 
   card.innerHTML = `
-    ${cover ? `<img class="game-cover" src="${cover}" alt="${title}" loading="lazy" onerror="this.style.display='none'">` : `<div class="game-cover"></div>`}
+    ${cover
+      ? `<img class="game-cover" src="${cover}" alt="${title}" loading="lazy" onerror="this.style.display='none'">`
+      : `<div class="game-cover"></div>`}
     <div class="game-body">
       <div class="game-meta"><span class="game-tag">${genre}</span></div>
       <h3 class="game-title">${title}</h3>
@@ -167,16 +155,22 @@ function makeCard(game, originalName) {
 }
 
 async function loadGames() {
-  const results = await Promise.all(GAMES.map(g => fetchGame(g)));
-  carousel.innerHTML = '';
-  results.forEach((g, i) => carousel.appendChild(makeCard(g, GAMES[i])));
-  buildDots();
-  setTimeout(() => {
-    document.querySelectorAll('.game-card').forEach(c => {
-      c.addEventListener('mouseenter', () => follower?.classList.add('hover'));
-      c.addEventListener('mouseleave', () => follower?.classList.remove('hover'));
-    });
-  }, 100);
+  try {
+    const res = await fetch('/api/games');
+    if (!res.ok) throw new Error('API error');
+    const games = await res.json();
+    carousel.innerHTML = '';
+    games.forEach((g) => carousel.appendChild(makeCard(g)));
+    buildDots();
+    setTimeout(() => {
+      document.querySelectorAll('.game-card').forEach((c) => {
+        c.addEventListener('mouseenter', () => follower?.classList.add('hover'));
+        c.addEventListener('mouseleave', () => follower?.classList.remove('hover'));
+      });
+    }, 100);
+  } catch (err) {
+    carousel.innerHTML = '<div class="loading">Couldn\'t load games. Refresh to try again.</div>';
+  }
 }
 
 function buildDots() {
@@ -200,7 +194,6 @@ document.querySelector('.carousel-btn.next')?.addEventListener('click', () => {
   carousel.scrollBy({ left: 320, behavior: 'smooth' });
 });
 carousel.addEventListener('scroll', () => {
-  const cards = [...carousel.children];
   const idx = Math.round(carousel.scrollLeft / 320);
   document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
 });
