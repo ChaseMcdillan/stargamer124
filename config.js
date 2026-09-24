@@ -1,4 +1,4 @@
-window.RAWG_API_KEY = "001203c185d2463cabafb4f2f53400fc";
+window.RAWG_API_KEY = "2db3dc427c644e29a4adc658b0b656e2";
 
 window.GAMES_LIST = [
   "Brawl Stars",
