@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stargamer124 — You're BUNS</title>
+  <meta name="description" content="Stargamer124 — the gaming alias of Matthew Yau. Site by Chase McDillan." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
+  <!-- Star Canvas -->
+  <canvas id="stars"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">STAR<span>GAMER</span>124</a>
+      <ul class="nav-links">
+        <li><a href="#games">Games</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#socials">Socials</a></li>
+        <li><a href="#legal">Legal</a></li>
+      </ul>
+      <button class="menu-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-text">
+      <h1 class="hero-title">
+        <span class="line line-1">STAR</span>
+        <span class="line line-2 gradient-text">GAMER</span>
+        <span class="line line-3">124</span>
+      </h1>
+    </div>
+    <div class="hero-portrait">
+      <div class="portrait-glow"></div>
+      <img src="hero.png" alt="Stargamer124 — Matthew Yau" class="portrait-img" />
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-tagline">You're <span class="buns">BUNS</span></p>
+      <div class="hero-cta">
+        <a href="https://www.youtube.com/channel/UC0WrXcwqqlEWeDdOYFjemFg" target="_blank" rel="noopener" class="btn btn-primary magnetic">Watch Videos</a>
+        <a href="https://www.instagram.com/matthew_yau124" target="_blank" rel="noopener" class="btn btn-secondary magnetic">Follow Me</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Scroll Reveal -->
+  <section class="reveal">
+    <div class="reveal-sticky">
+      <div class="reveal-stage" data-stage="1">
+        <h2>Meet Matthew.</h2>
+        <p>The guy behind the alias.</p>
+      </div>
+      <div class="reveal-stage" data-stage="2">
+        <h2>Known as Stargamer124.</h2>
+        <p>Competing across mobile, PC, and console.</p>
+      </div>
+      <div class="reveal-stage" data-stage="3">
+        <h2>He plays to win.</h2>
+        <p>Whatever's fun. Whatever's next. Always clutch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games Carousel -->
+  <section class="games" id="games">
+    <div class="section-header">
+      <span class="eyebrow">What He Plays</span>
+      <h2 class="section-title">The game rotation.</h2>
+    </div>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev" aria-label="Previous">←</button>
+      <div class="carousel" id="carousel">
+        <div class="loading">Loading games…</div>
+      </div>
+      <button class="carousel-btn next" aria-label="Next">→</button>
+    </div>
+    <div class="carousel-dots" id="dots"></div>
+    <p class="attribution">Game data &amp; cover art provided by <a href="https://rawg.io" target="_blank" rel="noopener">RAWG</a></p>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat fade-in-up"><div class="stat-num" data-count="12400">0</div><div class="stat-label">Followers</div></div>
+      <div class="stat fade-in-up"><div class="stat-num" data-count="850000">0</div><div class="stat-label">Total Views</div></div>
+      <div class="stat fade-in-up"><div class="stat-num" data-count="3200">0</div><div class="stat-label">Hours Played</div></div>
+      <div class="stat fade-in-up"><div class="stat-num" data-count="47">0</div><div class="stat-label">Wins</div></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="about-grid">
+      <div class="about-img-wrap fade-in">
+        <img src="hero.png" alt="Matthew Yau" class="about-img" />
+      </div>
+      <div class="about-text fade-in-up">
+        <span class="eyebrow">About</span>
+        <h2 class="section-title">The player behind the alias.</h2>
+        <p>Matthew Yau, known online as <strong>Stargamer124</strong>, is a multi-game competitor grinding across mobile, PC, and console. From Brawl Stars to GTA V, he plays whatever's fun and plays it to win.</p>
+        <p>Off-stream he's just a guy who spends too much time thinking about builds, metas, and the next clutch.</p>
+        <p class="site-credit">This site is designed, built, and maintained by <strong>Chase McDillan</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Socials -->
+  <section class="socials" id="socials">
+    <div class="section-header">
+      <span class="eyebrow">Follow</span>
+      <h2 class="section-title">Find him everywhere.</h2>
+    </div>
+    <div class="social-grid">
+      <a href="https://www.instagram.com/matthew_yau124" target="_blank" rel="noopener" class="social-card fade-in-up">
+        <div class="social-icon">IG</div>
+        <h3>Instagram</h3>
+        <p>@matthew_yau124</p>
+      </a>
+      <a href="https://www.youtube.com/channel/UC0WrXcwqqlEWeDdOYFjemFg" target="_blank" rel="noopener" class="social-card fade-in-up">
+        <div class="social-icon">YT</div>
+        <h3>YouTube</h3>
+        <p>Stargamer124</p>
+      </a>
+      <a href="https://www.tiktok.com/@matthew_yau124" target="_blank" rel="noopener" class="social-card fade-in-up">
+        <div class="social-icon">TT</div>
+        <h3>TikTok</h3>
+        <p>@matthew_yau124</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <section class="marquee-section">
+    <div class="marquee">
+      <div class="marquee-content">
+        <span>STARGAMER124</span><span class="dot">•</span>
+        <span>YOU'RE BUNS</span><span class="dot">•</span>
+        <span>STARGAMER124</span><span class="dot">•</span>
+        <span>YOU'RE BUNS</span><span class="dot">•</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="cta-final">
+    <div class="cta-bg"></div>
+    <div class="cta-content">
+      <h2 class="cta-title">Follow the journey.</h2>
+      <p class="cta-sub">New content. New clutches. Same energy.</p>
+      <a href="https://www.youtube.com/channel/UC0WrXcwqqlEWeDdOYFjemFg" target="_blank" rel="noopener" class="btn btn-primary btn-large magnetic">Subscribe on YouTube</a>
+    </div>
+  </section>
+
+  <!-- Footer + Legal -->
+  <footer class="footer" id="legal">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">STAR<span>GAMER</span>124</div>
+        <p class="footer-tag">You're BUNS.</p>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#" onclick="openLegal('privacy');return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="openLegal('terms');return false;">Terms of Service</a></li>
+          <li><a href="#" onclick="openLegal('cookies');return false;">Cookie Notice</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Credits</h4>
+        <ul>
+          <li>Site © 2025 <strong>Chase McDillan</strong></li>
+          <li>Stargamer124 is the gaming alias of <strong>Matthew Yau</strong></li>
+          <li>Game data by <a href="https://rawg.io" target="_blank" rel="noopener">RAWG</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Chase McDillan. All rights reserved. All game titles, cover art, and trademarks are property of their respective owners and are used for identification purposes only.</p>
+    </div>
+  </footer>
+
+  <!-- Legal Modal -->
+  <div class="modal" id="legalModal">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeLegal()">×</button>
+      <div id="legalContent"></div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "stargamer124",
+  "version": "1.0.0",
+  "description": "Stargamer124 — gaming site for Matthew Yau. Built by Chase McDillan.",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  },
+  "author": "Chase McDillan",
+  "license": "UNLICENSED"
+}
